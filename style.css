@@ -9,6 +9,7 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #f4f4f4;
+    padding-bottom: 4rem;
 }
 
 header {
@@ -61,7 +62,7 @@ footer {
         font-size: 2rem;
     }
     
-    main {
-        margin-bottom: 4rem;
+    body {
+        padding-bottom: 5rem;
     }
 }
