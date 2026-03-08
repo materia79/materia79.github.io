@@ -121,7 +121,6 @@
     );
 
     demoState.eventLogRows.event3.push(lineEl);
-    appendExistingLogLine(logEvent3El, lineEl);
 
     const timeoutId = setTimeout(() => {
       demoState.sliderDispatchTimeouts = demoState.sliderDispatchTimeouts.filter((pendingTimeoutId) => pendingTimeoutId !== timeoutId);
@@ -131,6 +130,7 @@
       }
 
       demoState.sliderMerger.add("event3", 1, sliderValue);
+      appendExistingLogLine(logEvent3El, lineEl);
     }, inputDelayMs);
 
     demoState.sliderDispatchTimeouts.push(timeoutId);
