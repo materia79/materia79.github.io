@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>EventMergerJS Browser Test</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 1rem;
+			}
+			.log-panel {
+				width: 100%;
+				height: 180px;
+				overflow-y: auto;
+				box-sizing: border-box;
+				border: 1px solid #999;
+				padding: 0.35rem;
+				background: #fff;
+				font-family: Consolas, monospace;
+				font-size: 11px;
+				white-space: pre-wrap;
+			}
+			button {
+				margin-bottom: 0.5rem;
+			}
+			.container-row {
+				display: flex;
+				gap: 0.5rem;
+				margin-bottom: 0.5rem;
+			}
+			.container-row > div {
+				flex: 1;
+			}
+			.lower-row {
+				align-items: flex-start;
+			}
+			.lower-row > .handler-column {
+				flex: 2;
+			}
+			.lower-row > .slider-column {
+				flex: 1;
+			}
+			label {
+				font-weight: bold;
+				display: block;
+				margin-bottom: 0.25rem;
+			}
+			.controls label {
+				display: inline-block;
+				margin-bottom: 0;
+				margin-right: 0.5rem;
+			}
+			.slider-controls {
+				display: flex;
+				flex-direction: column;
+				gap: 0.4rem;
+				margin-bottom: 0.5rem;
+			}
+			.slider-controls label {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				margin-bottom: 0;
+			}
+			.slider-controls span {
+				min-width: 6.5rem;
+			}
+			.slider-controls input[type="range"] {
+				flex: 1;
+				margin: 0;
+			}
+			.slider-output {
+				pointer-events: none;
+			}
+			.slider-help {
+				margin: 0 0 0.5rem;
+				color: #555;
+				font-size: 0.85rem;
+				line-height: 1.35;
+			}
+			.toolbar {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+				margin-bottom: 0.5rem;
+			}
+			.toolbar label {
+				display: inline-block;
+				margin-bottom: 0;
+			}
+			.log-line {
+				white-space: pre-wrap;
+			}
+			.event1-color {
+				color: #1f8b3a;
+			}
+			.event2-color {
+				color: #1d5fbf;
+			}
+			.event3-color {
+				color: #c43636;
+			}
+			.handler-marker {
+				font-weight: bold;
+				background: rgba(0, 0, 0, 0.06);
+			}
+		</style>
+		<script src="../dist/EventMerger.js"></script>
+	</head>
+	<body>
+		<h1>EventMergerJS Browser Test</h1>
+		<div class="toolbar">
+			<button id="run-test">Run Test</button>
+			<label>
+				minBufferTimeMs:
+				<input id="test-min-buffer" type="number" min="0" value="75" style="width: 4rem" />
+			</label>
+			<label>
+				maxBufferTimeMs:
+				<input id="test-max-buffer" type="number" min="0" value="200" style="width: 4rem" />
+			</label>
+		</div>
+		<div class="container-row">
+			<div>
+				<label>Event 1</label>
+				<div id="log-event1" class="log-panel"></div>
+				<div class="controls">
+          <label>
+            ms between:
+						<input id="event1-delay" type="number" min="0" value="50" style="width: 4rem" />
+					</label>
+          <label>
+            Count:
+            <input id="event1-count" type="number" min="0" value="6" style="width: 4rem" />
+          </label>
+				</div>
+			</div>
+			<div>
+				<label>Event 2</label>
+				<div id="log-event2" class="log-panel"></div>
+				<div class="controls">
+          <label>
+            ms between:
+						<input id="event2-delay" type="number" min="0" value="25" style="width: 4rem" />
+					</label>
+          <label>
+            Count:
+            <input id="event2-count" type="number" min="0" value="6" style="width: 4rem" />
+          </label>
+				</div>
+			</div>
+			<div>
+				<label>Event 3</label>
+				<div id="log-event3" class="log-panel"></div>
+				<div class="controls">
+          <label>
+            ms between:
+            <input id="event3-delay" type="number" min="0" value="25" style="width: 4rem" />
+          </label>
+					<label>
+						Count:
+						<input id="event3-count" type="number" min="0" value="1" style="width: 4rem" />
+					</label>
+        </div>
+			</div>
+		</div>
+		<div class="container-row lower-row">
+			<div class="handler-column">
+				<label>Event handler calls</label>
+				<div id="log-result" class="log-panel"></div>
+			</div>
+			<div class="slider-column">
+				<div class="slider-controls">
+					<label>
+						<span>input</span>
+						<input id="event3-input-slider" type="range" min="0" max="100" value="0" />
+						<output id="event3-input-value" for="event3-input-slider">0</output>
+					</label>
+					<label>
+						<span>output</span>
+						<input id="event3-output-slider" class="slider-output" type="range" min="0" max="100" value="0" />
+						<output id="event3-output-value" for="event3-output-slider">0</output>
+					</label>
+				</div>
+				<p class="slider-help">These sliders are connected through EventMerger. Input changes are read using the Event 3 "ms between" value, then merged between the current minBufferTimeMs and maxBufferTimeMs settings before the output slider is updated.</p>
+			</div>
+		</div>
+		<script>
+			const script = document.createElement('script');
+			script.src = './demo.js';
+			document.body.appendChild(script);
+		</script>
+  </body>
+</html>
