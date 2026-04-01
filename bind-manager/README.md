@@ -350,4 +350,4 @@ Release checklist: [QA_CHECKLIST.md](QA_CHECKLIST.md)
 
 ## License
 
-MIT
+-
