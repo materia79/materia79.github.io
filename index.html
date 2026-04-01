@@ -3,24 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Materia GitHub Pages">
-    <title>Materia</title>
+    <meta name="description" content="Materia projects and interactive demos, including Bind Manager and EventMergerJS.">
+    <title>Materia Projects</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>TODO</h1>
+    <header class="site-header">
+        <h1>Projects</h1>
     </header>
     
     <main>
         <section>
             <h2>About</h2>
-            <p>TODO.</p>
+            <p>Current work here is centered on practical browser-side tooling: input rebinding, controller support, runtime diagnostics, and small focused demos that can be tested directly in the browser.</p>
         </section>
         
         <section>
-            <h2>Content</h2>
-            <p><a href="./EventMergerJS/demo.html">EventMergerJS Demo</a></p>
+            <div class="section-heading">
+                <h2>Projects</h2>
+                <p>Live demos available from this page.</p>
+            </div>
+
+            <div class="project-list">
+                <article class="project-entry">
+                    <h3>Bind Manager</h3>
+                    <p class="project-card__summary">A browser-first key binding system for games and interactive applications with keyboard and gamepad support.</p>
+                    <ul class="feature-list">
+                        <li>Rebind actions in a grouped modal with multiple slots and reset support.</li>
+                        <li>Persist bindings in localStorage and subscribe to binding changes at runtime.</li>
+                        <li>Capture keyboard and gamepad input, including profile-aware controller labels.</li>
+                        <li>Show in-game hint overlays and open built-in input remap and controller test tools.</li>
+                    </ul>
+                    <div class="project-card__actions">
+                        <a class="button button--primary" href="./bind-manager/standalone-demo.html">Open Standalone Demo</a>
+                    </div>
+                </article>
+
+                <article class="project-entry">
+                    <h3>EventMergerJS</h3>
+                    <p class="project-card__summary">A library for coalescing repeated events into fewer updates while still preserving single incremental values. It is useful when you want to reduce network event load without losing important one-off changes.</p>
+                    <div class="project-card__actions">
+                        <a class="button button--secondary" href="./EventMergerJS/demo.html">Open Demo</a>
+                    </div>
+                </article>
+            </div>
         </section>
     </main>
     
