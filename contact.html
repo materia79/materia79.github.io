@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+    content="connect-src https://push.port0.org wss://push.port0.org local.adguard.org ws://local.adguard.org wss://local.adguard.org &apos;self&apos;; default-src &apos;self&apos; https://push.port0.org local.adguard.org data:; img-src &apos;self&apos; data: local.adguard.org; script-src &apos;unsafe-inline&apos; https://push.port0.org local.adguard.org; style-src &apos;unsafe-inline&apos; local.adguard.org" />
+  <title>push-mail | @Simon</title>
+  <style>
+    :root {
+      --pm-color-primary: #0f766e;
+      --pm-color-primary-strong: #115e59;
+      --pm-bg: #f8fafc;
+      --pm-card: #ffffff;
+      --pm-border: #cbd5e1;
+      --pm-text: #0f172a;
+      --pm-muted: #475569;
+      --pm-error: #991b1b;
+      --pm-ok: #166534;
+      --pm-warning-bg: #fef9c3;
+      --pm-warning-border: #facc15;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: Verdana, Geneva, sans-serif;
+      color: var(--pm-text);
+      background:
+        radial-gradient(circle at 15% 5%, #bae6fd 0%, rgba(186, 230, 253, 0) 40%),
+        radial-gradient(circle at 85% 95%, #bbf7d0 0%, rgba(187, 247, 208, 0) 45%),
+        var(--pm-bg);
+    }
+
+    .pm-embed {
+      width: 100%;
+      max-width: 760px;
+      margin: 1rem auto;
+      background: var(--pm-card);
+      border: 1px solid var(--pm-border);
+      border-radius: 1rem;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.1);
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .pm-title {
+      margin: 0;
+      font-size: 1.7rem;
+      line-height: 1.2;
+    }
+
+    .pm-bio {
+      margin: 0.4rem 0 0 0;
+      color: var(--pm-muted);
+      white-space: pre-wrap;
+    }
+
+    .pm-banner {
+      margin-top: 0.8rem;
+      border: 1px solid var(--pm-warning-border);
+      background: var(--pm-warning-bg);
+      color: #713f12;
+      border-radius: 0.7rem;
+      padding: 0.6rem 0.7rem;
+      display: none;
+    }
+
+    .pm-form {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .pm-label {
+      display: grid;
+      gap: 0.2rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1e293b;
+    }
+
+    .pm-input,
+    .pm-textarea {
+      border: 1px solid var(--pm-border);
+      border-radius: 0.65rem;
+      padding: 0.62rem;
+      font: inherit;
+      color: var(--pm-text);
+      background: #fff;
+    }
+
+    .pm-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .pm-btn {
+      border: none;
+      border-radius: 0.65rem;
+      background: var(--pm-color-primary);
+      color: #fff;
+      font-weight: 700;
+      padding: 0.65rem 0.85rem;
+      cursor: pointer;
+    }
+
+    .pm-btn:hover {
+      background: var(--pm-color-primary-strong);
+    }
+
+    .pm-status {
+      min-height: 1.2rem;
+      margin: 0;
+      color: var(--pm-muted);
+    }
+
+    .pm-status.error {
+      color: var(--pm-error);
+    }
+
+    .pm-status.ok {
+      color: var(--pm-ok);
+    }
+
+    .pm-footer {
+      margin-top: 0.8rem;
+      font-size: 0.84rem;
+      color: var(--pm-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .pm-chip {
+      border: 1px solid var(--pm-border);
+      border-radius: 999px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.78rem;
+      color: var(--pm-muted);
+      background: #f8fafc;
+    }
+
+    .site-header-contact {
+      background: linear-gradient(180deg, #32414f 0%, #1f2c38 100%);
+      border-bottom: 2px solid #0d141a;
+      color: #f3f6f8;
+      padding: 0.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .site-header-contact h1 {
+      flex: 1;
+      max-width: 980px;
+      margin: 0 auto;
+      font-family: 'Trebuchet MS', Verdana, sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .nav-menu a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      color: #f3f6f8;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: #f3f6f8;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .hamburger::before {
+      content: '\2630';
+    }
+
+    @media (max-width: 768px) {
+      .site-header-contact {
+        flex-wrap: wrap;
+      }
+
+      .site-header-contact h1 {
+        font-size: 1.55rem;
+        flex-basis: 100%;
+      }
+
+      .hamburger {
+        display: inline-block;
+        order: -1;
+      }
+
+      .nav-menu {
+        flex-basis: 100%;
+        flex-wrap: wrap;
+        padding: 0.5rem 0 0 0;
+      }
+
+      .nav-menu.hidden {
+        display: none;
+      }
+
+      .nav-menu:not(.hidden) {
+        display: flex;
+      }
+    }
+  </style>
+  <script type="text/javascript" nonce="f816477a7fc64ee9bbc6dba05a0"
+    src="//local.adguard.org?ts=1775222102183&amp;type=content-script&amp;dmn=push.port0.org&amp;url=https%3A%2F%2Fpush.port0.org%2Fapi%2Fuserpage%2Fdownload&amp;app=chrome.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script>
+  <script type="text/javascript" nonce="f816477a7fc64ee9bbc6dba05a0"
+    src="//local.adguard.org?ts=1775222102183&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script>
+</head>
+
+<body>
+  <header class="site-header-contact">
+    <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation"></button>
+    <h1>Contact</h1>
+    <nav>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="./index.html">Projects</a></li>
+        <li><a href="./contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="pm-embed" style="margin-top: 1rem;">
+    <h1 id="pm-title" class="pm-title">push-mail contact page</h1>
+    <p id="pm-bio" class="pm-bio"></p>
+    <div id="pm-banner" class="pm-banner"></div>
+
+    <form id="pm-form" class="pm-form">
+      <label class="pm-label">
+        Your name
+        <input id="pm-sender-name" class="pm-input" maxlength="60" required />
+      </label>
+      <label class="pm-label">
+        Reason
+        <input id="pm-reason" class="pm-input" maxlength="120" required />
+      </label>
+      <label class="pm-label">
+        Message
+        <textarea id="pm-content" class="pm-textarea" maxlength="5000" required></textarea>
+      </label>
+      <div id="pm-captcha-slot"></div>
+      <input id="pm-captcha-token" type="hidden" />
+      <button class="pm-btn" id="pm-send" type="submit">Send private message</button>
+    </form>
+
+    <p id="pm-status" class="pm-status"></p>
+
+    <div class="pm-footer">
+      <span id="pm-generated"></span>
+      <span id="pm-live" class="pm-chip">Live: connecting</span>
+    </div>
+  </main>
+
+  <script id="__pm_config__"
+    type="application/json">{"schemaVersion":1,"username":"Simon","backendBaseUrl":"https://push.port0.org","publicKey":"BLkCQV5b2yl3j7EbflLG8bFnAAMcX4jnkiifEBQw1Cy9hHkm4fKYMiBolf4ASXte1r7I8OH_QJzytpXQkB44T-A","generatedAt":"2026-04-03T13:18:37.799Z","features":{"websocket":true,"captcha":false}}</script>
+  <script>
+    /* pm-runtime v1.0.0 */
+    (function () {
+      const EXPECTED_SCHEMA_VERSION = 1;
+      const cfgText = document.getElementById("__pm_config__")?.textContent || "{}";
+      let config = {};
+      try {
+        config = JSON.parse(cfgText);
+      } catch (_err) {
+        setStatus("Failed to load embedded config.", true);
+        return;
+      }
+
+      const state = {
+        socketFailures: 0,
+        pollTimer: null,
+        socket: null,
+        captchaConfigKey: "",
+      };
+
+      const el = {
+        title: document.getElementById("pm-title"),
+        bio: document.getElementById("pm-bio"),
+        banner: document.getElementById("pm-banner"),
+        form: document.getElementById("pm-form"),
+        senderName: document.getElementById("pm-sender-name"),
+        reason: document.getElementById("pm-reason"),
+        content: document.getElementById("pm-content"),
+        captchaSlot: document.getElementById("pm-captcha-slot"),
+        captchaToken: document.getElementById("pm-captcha-token"),
+        status: document.getElementById("pm-status"),
+        generated: document.getElementById("pm-generated"),
+        live: document.getElementById("pm-live"),
+      };
+
+      const safeBackend = String(config.backendBaseUrl || "").replace(/\/$/, "");
+      if (!safeBackend) {
+        setStatus("Missing backend URL in config.", true);
+        return;
+      }
+
+      if (Number(config.schemaVersion) !== Number(EXPECTED_SCHEMA_VERSION)) {
+        showBanner("A newer userpage format is available. Re-download from your inbox.");
+      }
+
+      if (config.generatedAt) {
+        el.generated.textContent = "Generated: " + new Date(config.generatedAt).toLocaleString();
+      }
+
+      fetchProfile(true);
+      wireForm();
+      if (config.features && config.features.websocket) {
+        connectSocket();
+      } else {
+        startPolling();
+      }
+
+      function showBanner(message) {
+        el.banner.textContent = message;
+        el.banner.style.display = "block";
+      }
+
+      function setStatus(message, isError, isSuccess) {
+        el.status.textContent = message || "";
+        el.status.className = "pm-status";
+        if (isError) el.status.classList.add("error");
+        if (isSuccess) el.status.classList.add("ok");
+      }
+
+      function setLiveStatus(message) {
+        el.live.textContent = "Live: " + message;
+      }
+
+      async function fetchProfile(firstLoad) {
+        const endpoint = safeBackend + "/api/public/userpage/" + encodeURIComponent(config.username || "");
+        try {
+          const response = await fetch(endpoint, {
+            method: "GET",
+            headers: {
+              "X-PM-Schema-Version": String(config.schemaVersion || EXPECTED_SCHEMA_VERSION),
+            },
+          });
+          const payload = await response.json().catch(function () { return {}; });
+          if (!response.ok) {
+            if (firstLoad) {
+              setStatus(payload.error || "Profile unavailable.", true);
+            }
+            return;
+          }
+
+          const displayName = payload.displayName || ("@" + payload.username);
+          el.title.textContent = displayName;
+          el.bio.textContent = payload.bio || "Send a private message. Only the owner can read full content.";
+          setupCaptcha(payload.captcha || { enabled: false, provider: "none", siteKey: "" });
+
+          const headerVersion = Number(response.headers.get("X-PM-Schema-Version") || EXPECTED_SCHEMA_VERSION);
+          if (headerVersion > Number(config.schemaVersion || 0)) {
+            showBanner("A newer userpage version is available. Re-download to update.");
+          }
+        } catch (_err) {
+          if (firstLoad) {
+            setStatus("Could not reach backend server.", true);
+          }
+        }
+      }
+
+      function wireForm() {
+        el.form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          setStatus("");
+
+          const body = {
+            senderName: String(el.senderName.value || "").trim(),
+            reason: String(el.reason.value || "").trim(),
+            content: String(el.content.value || "").trim(),
+            captchaToken: String(el.captchaToken.value || ""),
+          };
+
+          const endpoint = safeBackend + "/api/public/userpage/" + encodeURIComponent(config.username || "") + "/contact";
+          try {
+            const response = await fetch(endpoint, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-PM-Schema-Version": String(config.schemaVersion || EXPECTED_SCHEMA_VERSION),
+              },
+              body: JSON.stringify(body),
+            });
+
+            const payload = await response.json().catch(function () { return {}; });
+            if (!response.ok) {
+              setStatus(payload.error || "Message failed.", true);
+              return;
+            }
+
+            setStatus("Message sent successfully.", false, true);
+            el.form.reset();
+
+            if (payload.guestToken && payload.conversationId) {
+              const target = safeBackend + "/m/" + encodeURIComponent(payload.conversationId) + "?guestToken=" + encodeURIComponent(payload.guestToken);
+              window.location.href = target;
+            }
+
+            el.captchaToken.value = "";
+          } catch (_err) {
+            setStatus("Network error while sending message.", true);
+          }
+        });
+      }
+
+      function ensureScript(src) {
+        return new Promise(function (resolve, reject) {
+          const existing = document.querySelector("script[src='" + src + "']");
+          if (existing) {
+            resolve();
+            return;
+          }
+          const script = document.createElement("script");
+          script.src = src;
+          script.async = true;
+          script.defer = true;
+          script.onload = function () { resolve(); };
+          script.onerror = function () { reject(new Error("script-load-failed")); };
+          document.head.appendChild(script);
+        });
+      }
+
+      function setupCaptcha(captcha) {
+        const key = JSON.stringify(captcha || {});
+        if (state.captchaConfigKey === key) {
+          return;
+        }
+        state.captchaConfigKey = key;
+        el.captchaSlot.innerHTML = "";
+
+        if (!captcha.enabled || captcha.provider === "none") {
+          return;
+        }
+        if (!captcha.siteKey) {
+          el.captchaSlot.innerHTML = "<p class='pm-status error'>Captcha site key is missing.</p>";
+          return;
+        }
+
+        if (captcha.provider === "turnstile") {
+          ensureScript("https://challenges.cloudflare.com/turnstile/v0/api.js").then(function () {
+            window.onPmTurnstileDone = function (token) {
+              el.captchaToken.value = token;
+            };
+            el.captchaSlot.innerHTML = "<div class='cf-turnstile' data-sitekey='" + captcha.siteKey + "' data-callback='onPmTurnstileDone'></div>";
+          }).catch(function () {
+            el.captchaSlot.innerHTML = "<p class='pm-status error'>Could not load captcha.</p>";
+          });
+          return;
+        }
+
+        if (captcha.provider === "hcaptcha") {
+          ensureScript("https://js.hcaptcha.com/1/api.js").then(function () {
+            window.onPmHcaptchaDone = function (token) {
+              el.captchaToken.value = token;
+            };
+            el.captchaSlot.innerHTML = "<div class='h-captcha' data-sitekey='" + captcha.siteKey + "' data-callback='onPmHcaptchaDone'></div>";
+          }).catch(function () {
+            el.captchaSlot.innerHTML = "<p class='pm-status error'>Could not load captcha.</p>";
+          });
+        }
+      }
+
+      function connectSocket() {
+        if (!window.io) {
+          injectSocketIoScript();
+          return;
+        }
+        attachSocket();
+      }
+
+      function injectSocketIoScript() {
+        const script = document.createElement("script");
+        script.src = safeBackend + "/socket.io/socket.io.js";
+        script.async = true;
+        script.onload = function () {
+          attachSocket();
+        };
+        script.onerror = function () {
+          state.socketFailures += 1;
+          if (state.socketFailures >= 3) {
+            startPolling();
+          }
+        };
+        document.head.appendChild(script);
+      }
+
+      function attachSocket() {
+        if (!window.io) {
+          startPolling();
+          return;
+        }
+
+        const wsBase = safeBackend.replace(/^http:/, "ws:").replace(/^https:/, "wss:");
+        state.socket = window.io(wsBase + "/embed", {
+          transports: ["websocket", "polling"],
+          query: {
+            embedUser: config.username || "",
+          },
+          reconnectionAttempts: 3,
+        });
+
+        state.socket.on("connect", function () {
+          setLiveStatus("connected");
+          stopPolling();
+        });
+
+        state.socket.on("disconnect", function () {
+          state.socketFailures += 1;
+          setLiveStatus("disconnected");
+          if (state.socketFailures >= 3) {
+            startPolling();
+          }
+        });
+
+        state.socket.on("embed:idle", function () {
+          setLiveStatus("idle");
+          startPolling();
+        });
+
+        state.socket.on("embed:contact", function () {
+          fetchProfile(false);
+        });
+
+        state.socket.on("connect_error", function () {
+          state.socketFailures += 1;
+          if (state.socketFailures >= 3) {
+            setLiveStatus("polling");
+            startPolling();
+          }
+        });
+      }
+
+      function startPolling() {
+        if (state.pollTimer) return;
+        setLiveStatus("polling");
+        state.pollTimer = setInterval(function () {
+          fetchProfile(false);
+        }, 30000);
+      }
+
+      function stopPolling() {
+        if (!state.pollTimer) return;
+        clearInterval(state.pollTimer);
+        state.pollTimer = null;
+      }
+    })();
+  </script>
+
+  <script>
+    const hamburger = document.getElementById('menu-toggle');
+    const navMenu = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('hidden');
+    });
+
+    // Update active link based on current page
+    const currentPage = window.location.pathname.split('/').pop() || 'contact.html';
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      const href = link.getAttribute('href').split('/').pop() || 'contact.html';
+      if (href === currentPage) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+
+</html>

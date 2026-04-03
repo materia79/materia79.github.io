@@ -9,7 +9,14 @@
 </head>
 <body>
     <header class="site-header">
+        <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation"></button>
         <h1>Projects</h1>
+        <nav>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="./index.html" class="active">Projects</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+            </ul>
+        </nav>
     </header>
     
     <main>
@@ -20,7 +27,7 @@
         
         <section>
             <div class="section-heading">
-                <h2>Projects</h2>
+                <h2>Libraries</h2>
                 <p>Live demos available from this page.</p>
             </div>
 
@@ -53,5 +60,25 @@
             </div>
         </section>
     </main>
+
+    <script>
+        const hamburger = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('hidden');
+        });
+
+        // Update active link based on current page
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            const href = link.getAttribute('href').split('/').pop() || 'index.html';
+            if (href === currentPage) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
