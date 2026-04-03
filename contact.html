@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy"
-    content="connect-src https://push.port0.org wss://push.port0.org local.adguard.org ws://local.adguard.org wss://local.adguard.org &apos;self&apos;; default-src &apos;self&apos; https://push.port0.org local.adguard.org data:; img-src &apos;self&apos; data: local.adguard.org; script-src &apos;unsafe-inline&apos; https://push.port0.org local.adguard.org; style-src &apos;unsafe-inline&apos; local.adguard.org" />
+    content="connect-src &apos;self&apos; https://push.port0.org wss://push.port0.org https://hcaptcha.com https://*.hcaptcha.com local.adguard.org ws://local.adguard.org wss://local.adguard.org; default-src &apos;self&apos; https://push.port0.org local.adguard.org; frame-src &apos;self&apos; https://hcaptcha.com https://*.hcaptcha.com data:; img-src &apos;self&apos; data: local.adguard.org; script-src &apos;self&apos; &apos;unsafe-inline&apos; https://push.port0.org https://js.hcaptcha.com https://hcaptcha.com https://*.hcaptcha.com local.adguard.org; style-src &apos;unsafe-inline&apos; local.adguard.org" />
   <title>push-mail | @Simon</title>
   <style>
     :root {
@@ -234,10 +234,6 @@
       }
     }
   </style>
-  <script type="text/javascript" nonce="f816477a7fc64ee9bbc6dba05a0"
-    src="//local.adguard.org?ts=1775222102183&amp;type=content-script&amp;dmn=push.port0.org&amp;url=https%3A%2F%2Fpush.port0.org%2Fapi%2Fuserpage%2Fdownload&amp;app=chrome.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script>
-  <script type="text/javascript" nonce="f816477a7fc64ee9bbc6dba05a0"
-    src="//local.adguard.org?ts=1775222102183&amp;name=AdGuard%20Extra&amp;name=AdGuard%20Popup%20Blocker&amp;type=user-script"></script>
 </head>
 
 <body>
@@ -284,7 +280,7 @@
   </main>
 
   <script id="__pm_config__"
-    type="application/json">{"schemaVersion":1,"username":"Simon","backendBaseUrl":"https://push.port0.org","publicKey":"BLkCQV5b2yl3j7EbflLG8bFnAAMcX4jnkiifEBQw1Cy9hHkm4fKYMiBolf4ASXte1r7I8OH_QJzytpXQkB44T-A","generatedAt":"2026-04-03T13:18:37.799Z","features":{"websocket":true,"captcha":false}}</script>
+    type="application/json">{"schemaVersion":1,"username":"Simon","backendBaseUrl":"https://push.port0.org","publicKey":"BLkCQV5b2yl3j7EbflLG8bFnAAMcX4jnkiifEBQw1Cy9hHkm4fKYMiBolf4ASXte1r7I8OH_QJzytpXQkB44T-A","generatedAt":"2026-04-03T17:03:00.912Z","captcha":{"enabled":true,"provider":"hcaptcha","siteKey":"3180fcca-b616-4582-84e0-0b1055a888fe"},"features":{"websocket":true}}</script>
   <script>
     /* pm-runtime v1.0.0 */
     (function () {
