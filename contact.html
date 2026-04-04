@@ -327,7 +327,7 @@
       }
 
       if (config.generatedAt) {
-        el.generated.textContent = "Generated: " + new Date(config.generatedAt).toLocaleString();
+        el.generated.innerHTML = `<a style="text-decoration: none; color: inherit;" class="pm-chip" href="https://push.port0.org" target="_blank" id="pm-generated">Push-Mail</a>`;
       }
 
       fetchProfile(true);
