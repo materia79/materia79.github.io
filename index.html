@@ -3,82 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Materia projects and interactive demos, including Bind Manager and EventMergerJS.">
-    <title>Projects</title>
+    <meta name="description" content="Browser-first tools, game-related experiments, and interactive demos by materia79.">
+    <title>Home | materia79</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="site-header">
         <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation"></button>
-        <h1>Projects</h1>
+        <h1>materia79</h1>
         <nav>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="./index.html" class="active">Projects</a></li>
-                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./index.html" data-nav="home">Home</a></li>
+                <li><a href="./projects/index.html" data-nav="projects">Projects</a></li>
+                <li><a href="./contact.html" data-nav="contact">Contact</a></li>
             </ul>
         </nav>
     </header>
-    
+
     <main>
-        <section>
-            <h2>About</h2>
-            <p>Current work here is centered on practical browser-side tooling: input rebinding, controller support, runtime diagnostics, and small focused demos that can be tested directly in the browser.</p>
+        <section class="hero">
+            <h2>Browser tools, interactive demos, and ongoing experiments</h2>
+            <p class="lede">I use this site as a small home for the projects I keep coming back to: browser-side systems, runtime diagnostics, lightweight libraries, and a few live experiments that are easier to understand when you can open them directly and try them yourself.</p>
+            <div class="project-card__actions">
+                <a class="button button--primary" href="./projects/index.html">View all projects</a>
+                <a class="button button--secondary" href="./contact.html">Contact</a>
+            </div>
         </section>
-        
+
         <section>
             <div class="section-heading">
-                <h2>Libraries</h2>
-                <p>Live demos available from this page.</p>
+                <h2>What this site focuses on</h2>
+                <p>Most of the work here sits somewhere between practical tooling and game-adjacent experimentation.</p>
             </div>
+            <div class="card-grid">
+                <article class="small-card">
+                    <h3>Input and controls</h3>
+                    <p>Projects like <a href="./projects/bind-manager.html">Bind Manager</a> are built around remapping, controller support, and making browser input feel reliable.</p>
+                </article>
+                <article class="small-card">
+                    <h3>Runtime behavior</h3>
+                    <p><a href="./projects/EventMerger.html">EventMergerJS</a> and <a href="./projects/tty-console.html">Node Server Console</a> both came out of wanting cleaner behavior under real usage, not just toy examples.</p>
+                </article>
+                <article class="small-card">
+                    <h3>Live applications</h3>
+                    <p>I also keep a few public-facing services and prototypes online, including <a href="./projects/pushmail.html">Push-Mail</a> and a <a href="./projects/asteroids.html">multiplayer Asteroids clone</a>.</p>
+                </article>
+            </div>
+        </section>
 
+        <section>
+            <div class="section-heading">
+                <h2>Featured work</h2>
+                <p>A short starting list if you want the highlights first.</p>
+            </div>
             <div class="project-list">
                 <article class="project-entry">
                     <h3>Bind Manager</h3>
-                    <p class="project-card__summary">A browser-first key binding system for games and interactive applications with keyboard and gamepad support.</p>
-                    <p class="project-card__summary">The latest minified release build is also published on GitHub for direct download.</p>
-                    <ul class="feature-list">
-                        <li>Rebind actions in a grouped modal with multiple slots and reset support.</li>
-                        <li>Persist bindings in localStorage and subscribe to binding changes at runtime.</li>
-                        <li>Capture keyboard and gamepad input, including profile-aware controller labels.</li>
-                        <li>Show in-game hint overlays and open built-in input remap and controller test tools.</li>
-                    </ul>
+                    <p class="project-card__summary">A browser-first rebinding system for games and interactive applications, with keyboard/gamepad support, local persistence, and built-in tooling.</p>
                     <div class="project-card__actions">
-                        <a class="button button--primary" href="./bind-manager/standalone-demo.html" target="_blank" rel="noopener noreferrer">Open Demo</a>
-                        <a class="button button--secondary" href="https://github.com/materia79/bind-manager" target="_blank" rel="noopener noreferrer">Repository</a>
-                        <a class="button button--secondary" href="https://github.com/materia79/bind-manager/releases/tag/main-latest" target="_blank" rel="noopener noreferrer">Latest Release</a>
+                        <a class="button button--primary" href="./projects/bind-manager.html">Read overview</a>
+                        <a class="button button--secondary" href="./projects/bind-manager/standalone-demo.html" target="_blank" rel="noopener noreferrer">Open demo</a>
                     </div>
                 </article>
 
                 <article class="project-entry">
                     <h3>EventMergerJS</h3>
-                    <p class="project-card__summary">A library for coalescing repeated events into fewer updates while still preserving single incremental values. It is useful when you want to reduce network event load without losing important one-off changes.</p>
+                    <p class="project-card__summary">A small utility for coalescing bursty repeated events into fewer updates without throwing away meaningful state.</p>
                     <div class="project-card__actions">
-                        <a class="button button--secondary" href="./EventMergerJS/demo.html" target="_blank" rel="noopener noreferrer">Open Demo</a>
-                        <a class="button button--secondary" href="https://github.com/materia79/EventMergerJS" target="_blank" rel="noopener noreferrer">Repository</a>
+                        <a class="button button--primary" href="./projects/EventMerger.html">Read overview</a>
+                        <a class="button button--secondary" href="./projects/EventMergerJS/demo.html" target="_blank" rel="noopener noreferrer">Open demo</a>
+                    </div>
+                </article>
+
+                <article class="project-entry">
+                    <h3>Node Server Console</h3>
+                    <p class="project-card__summary">A terminal UI for Node.js services that adds better scrollback, command loading, runtime state, and embedding support for long-lived processes.</p>
+                    <div class="project-card__actions">
+                        <a class="button button--primary" href="./projects/tty-console.html">Read overview</a>
+                        <a class="button button--secondary" href="https://github.com/materia79/tty" target="_blank" rel="noopener noreferrer">Repository</a>
                     </div>
                 </article>
             </div>
         </section>
+
+        <section>
+            <div class="section-heading">
+                <h2>Current project list</h2>
+                <p>For the full catalog, use the <a href="./projects/index.html">projects hub</a>. These pages are the current public overviews:</p>
+            </div>
+            <ul class="link-list">
+                <li><a href="./projects/bind-manager.html">Bind Manager</a></li>
+                <li><a href="./projects/EventMerger.html">EventMergerJS</a></li>
+                <li><a href="./projects/tty-console.html">Node Server Console</a></li>
+                <li><a href="./projects/asteroids.html">Multiplayer Asteroids Clone</a></li>
+                <li><a href="./projects/pushmail.html">Push-Mail Service</a></li>
+            </ul>
+        </section>
     </main>
 
-    <script>
-        const hamburger = document.getElementById('menu-toggle');
-        const navMenu = document.getElementById('nav-menu');
+    <footer>
+        materia79 • <a href="https://github.com/materia79" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">To my GitHub profile</a>
+    </footer>
 
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('hidden');
-        });
-
-        // Update active link based on current page
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            const href = link.getAttribute('href').split('/').pop() || 'index.html';
-            if (href === currentPage) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        });
-    </script>
+    <script src="./site.js"></script>
 </body>
 </html>

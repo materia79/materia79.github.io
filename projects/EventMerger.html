@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EventMergerJS is a small library for smoothing out bursts of repeated events without losing meaningful state.">
+    <title>EventMergerJS</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header class="site-header">
+        <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation"></button>
+        <h1>EventMergerJS</h1>
+        <nav>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../index.html" data-nav="home">Home</a></li>
+                <li><a href="./index.html" data-nav="projects">Projects</a></li>
+                <li><a href="../contact.html" data-nav="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="./index.html">Projects</a> / EventMergerJS</p>
+            <h2>A lightweight way to calm noisy event streams</h2>
+            <p class="lede">EventMergerJS started from a very practical problem: some update sources are too chatty to handle one event at a time, but simply dropping events loses useful information. This library reduces the noise while still keeping the final state and accumulated intent intact.</p>
+            <div class="project-meta">
+                <span>Open source</span>
+                <span>JavaScript utility</span>
+                <span>Demo available</span>
+            </div>
+            <div class="project-card__actions">
+                <a class="button button--primary" href="./EventMergerJS/demo.html" target="_blank" rel="noopener noreferrer">Open Demo</a>
+                <a class="button button--secondary" href="https://github.com/materia79/EventMergerJS" target="_blank" rel="noopener noreferrer">Repository</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>What problem it solves</h2>
+            <p>In UI code, network traffic, or simulation-style updates, it is common to get bursts of repeated events that all represent nearly the same thing. EventMergerJS lets me buffer those bursts into a smaller number of handled updates, while still preserving the last meaningful payload and the combined incremental value that matters to the caller.</p>
+            <ul class="feature-list">
+                <li>Coalesces repeated updates into fewer handler calls.</li>
+                <li>Preserves final state instead of blindly discarding the newest value.</li>
+                <li>Tracks duplicate count and stacked totals so the handler still knows what happened.</li>
+                <li>Works well for sliders, realtime controls, throttled network actions, and bursty browser events.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Usage style</h2>
+            <p>The library is intentionally small. You create a merger with a handler and buffering window, then feed events into it as they arrive.</p>
+<pre><code>const merger = new EventMerger((eventName, totalValue, lastValue) => {
+    render(lastValue);
+}, 40, 120);
+
+merger.add('slider', 1, currentValue);</code></pre>
+            <p>The included demo makes this behavior easy to see: repeated inputs are merged, the output updates more cleanly, and the log shows how many events were absorbed into one handled result.</p>
+        </section>
+
+        <section>
+            <h2>Why I keep it around</h2>
+            <p>It is a small utility, but it fits a recurring need. When I want something between “process everything immediately” and “throw updates away,” this gives me a controlled middle ground that stays easy to reason about.</p>
+        </section>
+
+        <section>
+            <h2>Browse more projects</h2>
+            <ul class="link-list">
+                <li><a href="./bind-manager.html">Bind Manager</a></li>
+                <li><a href="./tty-console.html">Node Server Console</a></li>
+                <li><a href="./asteroids.html">Multiplayer Asteroids Clone</a></li>
+                <li><a href="./pushmail.html">Push-Mail Service</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        materia79 • <a href="https://github.com/materia79" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">To my GitHub profile</a>
+    </footer>
+
+    <script src="../site.js"></script>
+</body>
+</html>

@@ -242,8 +242,9 @@
     <h1>Contact</h1>
     <nav>
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="./index.html">Projects</a></li>
-        <li><a href="./contact.html" class="active">Contact</a></li>
+        <li><a href="./index.html" data-nav="home">Home</a></li>
+        <li><a href="./projects/index.html" data-nav="projects">Projects</a></li>
+        <li><a href="./contact.html" data-nav="contact" class="active">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -578,19 +579,27 @@
     const hamburger = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
 
+    if (window.innerWidth <= 768) {
+      navMenu.classList.add('hidden');
+    }
+
     hamburger.addEventListener('click', () => {
       navMenu.classList.toggle('hidden');
     });
 
-    // Update active link based on current page
-    const currentPage = window.location.pathname.split('/').pop() || 'contact.html';
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-      const href = link.getAttribute('href').split('/').pop() || 'contact.html';
-      if (href === currentPage) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
+    const path = (window.location.pathname || '').replace(/\\/g, '/').toLowerCase();
+    const isProjectPath = path.includes('/projects/');
+    const isContactPath = path.endsWith('/contact.html');
+    const isHomePath = !isProjectPath && !isContactPath;
+
+    document.querySelectorAll('.nav-menu a[data-nav]').forEach(link => {
+      const target = link.dataset.nav;
+      const isActive =
+        (target === 'home' && isHomePath) ||
+        (target === 'projects' && isProjectPath) ||
+        (target === 'contact' && isContactPath);
+
+      link.classList.toggle('active', isActive);
     });
   </script>
 </body>

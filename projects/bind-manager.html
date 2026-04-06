@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bind Manager is a browser-first input rebinding system for games and interactive applications.">
+    <title>Bind Manager</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header class="site-header">
+        <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation"></button>
+        <h1>Bind Manager</h1>
+        <nav>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../index.html" data-nav="home">Home</a></li>
+                <li><a href="./index.html" data-nav="projects">Projects</a></li>
+                <li><a href="../contact.html" data-nav="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="./index.html">Projects</a> / Bind Manager</p>
+            <h2>A browser-first rebinding system for games and interactive tools</h2>
+            <p class="lede">I built Bind Manager for the kind of project that starts simple and then suddenly needs a real input layer: grouped actions, multiple slots per action, keyboard and gamepad support, persistent settings, and a remapping flow that feels at home inside the browser instead of bolted on later.</p>
+            <div class="project-meta">
+                <span>Open source</span>
+                <span>Browser ESM</span>
+                <span>Keyboard + Gamepad</span>
+            </div>
+            <div class="project-card__actions">
+                <a class="button button--primary" href="./bind-manager/standalone-demo.html" target="_blank" rel="noopener noreferrer">Open Demo</a>
+                <a class="button button--secondary" href="https://github.com/materia79/bind-manager" target="_blank" rel="noopener noreferrer">Repository</a>
+                <a class="button button--secondary" href="https://github.com/materia79/bind-manager/releases/tag/main-latest" target="_blank" rel="noopener noreferrer">Latest Release</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>What it is designed for</h2>
+            <p>My goal with this library is to make browser-side input handling feel more like a proper game or runtime system. Instead of wiring key events directly all over an app, I can register named actions, attach labels and descriptions, expose a remapping modal, and keep the runtime behavior stable even when bindings change.</p>
+            <ul class="feature-list">
+                <li>Register actions with labels, groups, default bindings, and multiple binding slots.</li>
+                <li>Persist bindings in <code>localStorage</code> and react to changes at runtime through subscriptions.</li>
+                <li>Capture both keyboard and gamepad input, including profile-aware controller naming where available.</li>
+                <li>Show built-in input remap and controller test tools directly inside the browser UI.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>API at a glance</h2>
+            <p>The public API stays intentionally practical. The main entry point is <code>createBindManager(options)</code>, and from there actions are registered, queried, and updated in one place.</p>
+            <ul class="feature-list">
+                <li><code>createBindManager(options)</code> sets up the manager, persistence, optional debug controls, and built-in tools.</li>
+                <li><code>registerAction(def)</code> or <code>registerActions(defs)</code> creates the action handles your app actually listens to.</li>
+                <li>Runtime helpers like <code>onPressed()</code>, <code>onReleased()</code>, and <code>onHeld()</code> keep gameplay logic decoupled from raw events.</li>
+                <li>Modal controls such as <code>open()</code>, <code>toggle()</code>, <code>openInputRemap()</code>, and <code>openControllerTest()</code> expose the UI without forcing a framework.</li>
+            </ul>
+<pre><code>import { createBindManager } from './src/index.js';
+
+const binds = createBindManager({
+    namespace: 'my-game',
+    builtInTools: {
+        inputRemap: true,
+        controllerTest: true,
+    },
+});
+
+const jump = binds.registerAction({
+    id: 'jump',
+    label: 'Jump',
+    group: 'Movement',
+    defaultBindings: ['Space', null],
+});
+
+jump.onPressed(() => {
+    // game logic here
+});</code></pre>
+        </section>
+
+        <section>
+            <h2>Why it matters in practice</h2>
+            <p>This is the sort of utility that pays off quickly once a prototype turns into something people actually need to configure. It gives me a consistent way to ship rebinding, hint overlays, controller testing, and persistence without having to reinvent the same input glue in every browser project.</p>
+            <div class="note-box">
+                <p><strong>Good fit for:</strong> browser games, sandbox tools, controller-friendly demos, or any interactive app that needs runtime remapping without a heavyweight framework.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Browse more projects</h2>
+            <ul class="link-list">
+                <li><a href="./EventMerger.html">EventMergerJS</a></li>
+                <li><a href="./tty-console.html">Node Server Console</a></li>
+                <li><a href="./asteroids.html">Multiplayer Asteroids Clone</a></li>
+                <li><a href="./pushmail.html">Push-Mail Service</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        materia79 • <a href="https://github.com/materia79" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">To my GitHub profile</a>
+    </footer>
+
+    <script src="../site.js"></script>
+</body>
+</html>

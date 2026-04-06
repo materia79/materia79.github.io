@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Node Server Console is a terminal UI for Node.js services, game servers, and embedded runtimes.">
+    <title>Node Server Console</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header class="site-header">
+        <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation"></button>
+        <h1>Node Server Console</h1>
+        <nav>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../index.html" data-nav="home">Home</a></li>
+                <li><a href="./index.html" data-nav="projects">Projects</a></li>
+                <li><a href="../contact.html" data-nav="contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <p class="breadcrumb"><a href="../index.html">Home</a> / <a href="./index.html">Projects</a> / Node Server Console</p>
+            <h2>A more useful terminal UI for long-running Node services</h2>
+            <p class="lede">This project grew out of wanting something more practical than raw server output in a plain terminal window. It adds a structured console view, command handling, scrollback, runtime state, and embedding options that make it easier to operate a service while it is actually running.</p>
+            <div class="project-meta">
+                <span>Open source</span>
+                <span>Node.js 20+</span>
+                <span>Embedding support</span>
+            </div>
+            <div class="project-card__actions">
+                <a class="button button--secondary" href="https://github.com/materia79/tty" target="_blank" rel="noopener noreferrer">Repository</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>What it adds over plain stdout</h2>
+            <ul class="feature-list">
+                <li>A dynamic title row with status information, including AFK detection and timing state.</li>
+                <li>A scrollable buffer with better viewport handling, wrapping control, timestamps, and persistent history.</li>
+                <li>Built-in command loading so a running service can expose operational commands without building a full admin panel.</li>
+                <li>Config and history persistence through local JSON files, which keeps the runtime behavior predictable across restarts.</li>
+            </ul>
+            <p>In practice, it is a better fit for server runtimes, game backends, and small self-hosted tools where a browser dashboard would be overkill but raw console output is too limiting.</p>
+        </section>
+
+        <section>
+            <h2>Integration style</h2>
+            <p>The library supports both direct in-process integration and launcher-style embedding for external executables. For Node services, the simplest path is creating a console instance and exposing the resulting API to the runtime.</p>
+<pre><code>const { createConsole } = require('tty-console');
+
+const ui = createConsole({
+    titleEnabled: true,
+    wordWrapEnabled: true,
+    prompt: '&gt; '
+}).start();
+
+console.log('server started');</code></pre>
+            <p>There is also a launcher mode for cases where the real runtime is another executable and this console acts as the front-end that forwards input and tails output.</p>
+        </section>
+
+        <section>
+            <h2>Built-in operational features</h2>
+            <ul class="feature-list">
+                <li>Command loading from a dedicated <code>commands/</code> folder.</li>
+                <li>Runtime toggles for title row, wrapping, timestamps, mouse mode, and AFK tracking.</li>
+                <li>Persistent command history with prefix navigation for faster repeated admin work.</li>
+                <li>Useful built-ins like <code>help</code>, <code>toggle</code>, <code>get</code>, <code>set</code>, <code>cls</code>, <code>mandelbrot</code>, and <code>exit</code>.</li>
+            </ul>
+            <div class="note-box">
+                <p><strong>Typical use case:</strong> keep a service or game server operational from the terminal while still having structured logs, quick commands, and better runtime feedback than standard console output alone.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Browse more projects</h2>
+            <ul class="link-list">
+                <li><a href="./bind-manager.html">Bind Manager</a></li>
+                <li><a href="./EventMerger.html">EventMergerJS</a></li>
+                <li><a href="./asteroids.html">Multiplayer Asteroids Clone</a></li>
+                <li><a href="./pushmail.html">Push-Mail Service</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        materia79 • <a href="https://github.com/materia79" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">To my GitHub profile</a>
+    </footer>
+
+    <script src="../site.js"></script>
+</body>
+</html>
