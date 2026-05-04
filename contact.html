@@ -323,6 +323,24 @@
         return;
       }
 
+      function normalizeTargetUsername(value) {
+        const normalized = String(value || "").trim();
+        return normalized.replace(/^@+/, "");
+      }
+
+      const urlTargetOverride = normalizeTargetUsername(new URLSearchParams(window.location.search).get("username"));
+      const configPublicTarget = normalizeTargetUsername(config.publicTargetUsername);
+      const configLegacyTarget = normalizeTargetUsername(config.username);
+      const effectiveTargetUsername =
+        urlTargetOverride ||
+        configPublicTarget ||
+        configLegacyTarget;
+
+      if (!effectiveTargetUsername) {
+        setStatus("Missing target username in config.", true);
+        return;
+      }
+
       if (Number(config.schemaVersion) !== Number(EXPECTED_SCHEMA_VERSION)) {
         showBanner("A newer userpage format is available. Re-download from your inbox.");
       }
@@ -330,6 +348,9 @@
       if (config.generatedAt) {
         el.generated.innerHTML = `<a style="text-decoration: none; color: inherit;" class="pm-chip" href="https://push.port0.org" target="_blank" id="pm-generated">Push-Mail</a>`;
       }
+
+      // Keep legacy field aligned for any existing helper behavior.
+      config.username = effectiveTargetUsername;
 
       fetchProfile(true);
       wireForm();
@@ -356,7 +377,7 @@
       }
 
       async function fetchProfile(firstLoad) {
-        const endpoint = safeBackend + "/api/public/userpage/" + encodeURIComponent(config.username || "");
+        const endpoint = safeBackend + "/api/public/userpage/" + encodeURIComponent(effectiveTargetUsername);
         try {
           const response = await fetch(endpoint, {
             method: "GET",
@@ -367,7 +388,8 @@
           const payload = await response.json().catch(function () { return {}; });
           if (!response.ok) {
             if (firstLoad) {
-              setStatus(payload.error || "Profile unavailable.", true);
+              const baseError = payload.error || "Server under maintenance.";
+              setStatus(baseError + " Target: " + effectiveTargetUsername, true);
             }
             return;
           }
@@ -400,7 +422,7 @@
             captchaToken: String(el.captchaToken.value || ""),
           };
 
-          const endpoint = safeBackend + "/api/public/userpage/" + encodeURIComponent(config.username || "") + "/contact";
+          const endpoint = safeBackend + "/api/public/userpage/" + encodeURIComponent(effectiveTargetUsername) + "/contact";
           try {
             const response = await fetch(endpoint, {
               method: "POST",
